@@ -1,17 +1,17 @@
 library(readxl)
-A_stars <- read_excel("~/Desktop/MATH363/ExoplanetData.xlsx", 
+A_stars <- read_excel("~/Desktop/ExoplanetData.xlsx", 
                             sheet = "A")
-B_stars <- read_excel("~/Desktop/MATH363/ExoplanetData.xlsx", 
+B_stars <- read_excel("~/Desktop/ExoplanetData.xlsx", 
                        sheet = "B")
-F_stars <- read_excel("~/Desktop/MATH363/ExoplanetData.xlsx", 
+F_stars <- read_excel("~/Desktop/ExoplanetData.xlsx", 
                        sheet = "F")
-G_stars <- read_excel("~/Desktop/MATH363/ExoplanetData.xlsx", 
+G_stars <- read_excel("~/Desktop/ExoplanetData.xlsx", 
                        sheet = "G")
-K_stars <- read_excel("~/Desktop/MATH363/ExoplanetData.xlsx", 
+K_stars <- read_excel("~/Desktop/ExoplanetData.xlsx", 
                        sheet = "K")
-M_stars <- read_excel("~/Desktop/MATH363/ExoplanetData.xlsx", 
+M_stars <- read_excel("~/Desktop/ExoplanetData.xlsx", 
                        sheet = "M")
-Stars_v_planets_all <- read_excel("~/Desktop/MATH363/ExoplanetData.xlsx", 
+Stars_v_planets_all <- read_excel("~/Desktop/ExoplanetData.xlsx", 
                                   sheet = "Stars v Planet")
 
 A_masses<-A_stars$pl_bmasse
@@ -54,3 +54,23 @@ y<- sort(Stars_v_planets_all$pl_bmasse)
 qqplot(x, y, xlab = "Theoretical Quantiles (Exponential)", ylab = "Sample Quantiles", main = 
          "Q-Q Plot of Exoplanet Mass Distributions")
 
+
+## Hypothesis test data
+
+G_mass_radi <- read_excel("~/Desktop/ExoplanetData.xlsx", sheet = "G_radi");
+M_mass_radi <- read_excel("~/Desktop/ExoplanetData.xlsx", sheet = "M_radi");
+
+G_ratio <- G_mass_radi$ratio;
+M_ratio <- M_mass_radi$ratio;
+
+var1<- var(G_ratio)
+var2<- var(M_ratio)
+
+hist(G_ratio, col="red")
+hist(M_ratio, col="blue", add = TRUE)
+
+i<-rexp(length(G_ratio))
+j<- sort(G_ratio)
+qqplot(i,j)
+
+print(t.test(G_ratio, M_ratio, var.equal=TRUE, conf.level = 0.99))
